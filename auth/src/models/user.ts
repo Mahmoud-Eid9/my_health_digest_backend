@@ -6,6 +6,9 @@ import { PasswordManager } from '../services/password-manager';
 interface UserAttrs {
   email: string;
   password: string;
+  name: string;
+  age: number;
+  gender: string;
 }
 
 // An interface that descirbes the properties
@@ -19,6 +22,9 @@ interface UserModel extends mongoose.Model<UserDoc> {
 interface UserDoc extends mongoose.Document {
   email: string;
   password: string;
+  name: string;
+  age: number;
+  gender: string;
 }
 
 const userSchema = new mongoose.Schema(
@@ -31,6 +37,18 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    name:{
+      type: String,
+      required: true
+    },
+    age: {
+      type: Number,
+      required: true
+    },
+    gender: {
+      type: String,
+      required: true
+    }
   },
   {
     toJSON: {

@@ -15,17 +15,20 @@ router.post(
       .trim()
       .isLength({ min: 4, max: 20 })
       .withMessage('Password must be between 4 and 20 characters'),
+    body('name').isAlpha().withMessage('Name Must be only alphabetical characters'),
+    body('gender').isLength({ min: 3, max: 7 }).withMessage('Must provide Valid gender'),
+    body('age').isInt().withMessage('Age must be a valid'),
   ],
   validateRequest,
   async (req: Request, res: Response) => {
-    const { email, password } = req.body;
+    const { email, password, name, age, gender } = req.body;
 
     const existingUser = await User.findOne({ email });
 
     if (existingUser) {
       throw new BadRequestError('Email already exists');
     }
-    const user = User.build({ email, password });
+    const user = User.build({ email, password, name, age, gender });
     await user.save();
 
     // Generate JWT
@@ -33,6 +36,9 @@ router.post(
       {
         id: user.id,
         email: user.email,
+        name: user.name,
+        age: user.age,
+        gender: user.gender,
       },
       process.env.JWT_KEY!
     );

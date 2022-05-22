@@ -35,6 +35,9 @@ router.post(
       {
         id: existingUser.id,
         email: existingUser.email,
+        name: existingUser.name,
+        age: existingUser.age,
+        gender: existingUser.gender
       },
       process.env.JWT_KEY!
     );
