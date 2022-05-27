@@ -6,8 +6,8 @@ import mongoose from 'mongoose';
 import { currentUserRouter } from './routes/current-user';
 import { signinRouter } from './routes/signin';
 import { signupRouter } from './routes/signup';
-import { errorHandler } from './middlewares/error-handler';
-import { NotFoundError } from './errors/not-found-error';
+import { errorHandler } from '@myhealthdigest/auth-middleware';
+import { NotFoundError } from '@myhealthdigest/auth-middleware';
 
 const app = express();
 app.use(json());

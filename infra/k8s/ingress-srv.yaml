@@ -16,3 +16,10 @@ spec:
                 name: auth-srv
                 port:
                   number: 3000
+          - path: /api/pdfs/?(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: pdfs-srv
+                port:
+                  number: 3001

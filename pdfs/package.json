@@ -1,0 +1,21 @@
+{
+  "name": "pdfs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "ts-node-dev --poll src/index.ts"
+  },
+  "keywords": [],
+  "author": "Mahmoud Eid",
+  "license": "ISC",
+  "dependencies": {
+    "@myhealthdigest/auth-middleware": "^1.0.3",
+    "@types/express": "^4.17.13",
+    "express": "^4.18.1",
+    "nodemon": "^2.0.16",
+    "pdfkit": "^0.13.0",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^4.7.2"
+  }
+}

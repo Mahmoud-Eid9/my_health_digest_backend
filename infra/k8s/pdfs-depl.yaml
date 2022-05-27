@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pdfs-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pdfs
+  template:
+    metadata:
+      labels:
+        app: pdfs
+    spec:
+      containers:
+        - name: pdfs
+          image: mahmoudeid9/pdfs
+          env: 
+            - name: JWT_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: jwt-secret
+                  key: JWT_KEY
+            - name: MONGO_URL
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-url
+                  key: MONGO_URL
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: pdfs-srv
+spec:
+  selector:
+    app: pdfs
+  ports:
+  - name: pdfs
+    protocol: TCP
+    port: 3001
+    targetPort: 3001
