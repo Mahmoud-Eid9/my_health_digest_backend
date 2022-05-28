@@ -8,7 +8,10 @@ const arrangePdfs = (category: string) => {
     try {
       const filenames = fs.readdirSync(directoryPath);
       filenames.forEach((file: string) => {
-        pdfs = { ...pdfs, [file]: `http://10.0.2.2/api/pdfs/static/${category}/${file}` };
+        pdfs = {
+          ...pdfs,
+          [file.replaceAll('-', ' ').replaceAll(".pdf", "")]: `http://10.0.2.2/api/pdfs/static/${category}/${file}`,
+        };
       });
       resolve(pdfs);
     } catch (err) {
