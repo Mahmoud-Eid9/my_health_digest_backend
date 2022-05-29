@@ -10,7 +10,9 @@ const arrangePdfs = (category: string) => {
       filenames.forEach((file: string) => {
         pdfs = {
           ...pdfs,
-          [file.replaceAll('-', ' ').replaceAll(".pdf", "")]: `http://10.0.2.2/api/pdfs/static/${category}/${file}`,
+          [file
+            .replaceAll('-', ' ')
+            .replaceAll('.pdf', '')]: `http://10.0.2.2/api/pdfs/static/${category}/${file}`,
         };
       });
       resolve(pdfs);
