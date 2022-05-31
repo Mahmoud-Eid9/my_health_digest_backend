@@ -3,8 +3,8 @@ const router = express.Router();
 import {arrangePdfs} from '../controllers/main';
 
 
-router.get('/get-pdfs/:category', async (req: Request, res: Response) => {
-  await arrangePdfs(req.params.category)
+router.get('/get-pdfs/:language/:category', async (req: Request, res: Response) => {
+  await arrangePdfs(req.params.category, req.params.language)
     .then((pdfs) => {
       console.log("Served Pdfs");
       res.status(200).send(pdfs);

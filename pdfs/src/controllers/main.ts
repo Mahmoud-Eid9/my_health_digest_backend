@@ -1,9 +1,9 @@
 const fs = require('fs');
 const path = require('path');
 
-const arrangePdfs = (category: string) => {
+const arrangePdfs = (category: string, language: string) => {
   return new Promise((resolve, reject) => {
-    const directoryPath = path.resolve(__dirname, `../public/${category}`);
+    const directoryPath = path.resolve(__dirname, `../public/${language}/${category}`);
     let pdfs = {};
     try {
       const filenames = fs.readdirSync(directoryPath);
@@ -12,12 +12,15 @@ const arrangePdfs = (category: string) => {
           ...pdfs,
           [file
             .replaceAll('-', ' ')
-            .replaceAll('.pdf', '')]: `http://10.0.2.2/api/pdfs/static/${category}/${file}`,
+            .replaceAll(
+              '.pdf',
+              ''
+            )]: `http://10.0.2.2/api/pdfs/static/${language}/${category}/${file}`,
         };
       });
       resolve(pdfs);
     } catch (err) {
-      reject('Server Error');
+      reject('File not Found');
     }
   });
 };
