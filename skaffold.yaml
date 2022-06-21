@@ -24,3 +24,12 @@ build:
         manual:
           - src: 'src/**/*.ts'
             dest: .
+    - image: mahmoudeid9/image-recog
+      context: image-recog
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: '*.py'
+            dest: .
+
