@@ -8,6 +8,7 @@ const arrangePdfs = (category: string, language: string) => {
     try {
       const filenames = fs.readdirSync(directoryPath);
       filenames.forEach((file: string) => {
+        if(file.endsWith(".pdf")){
         pdfs = {
           ...pdfs,
           [file
@@ -17,6 +18,7 @@ const arrangePdfs = (category: string, language: string) => {
               ''
             )]: `http://10.0.2.2/api/pdfs/static/${language}/${category}/${file}`,
         };
+      }
       });
       resolve(pdfs);
     } catch (err) {

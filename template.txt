@@ -1,0 +1,27 @@
+{
+  "disease1": [
+    "symptom1",
+    "symptom2",
+    "symptom3"
+  ],
+  "disease2": [
+    "symptom1",
+    "symptom2",
+    "symptom3",
+    "symptom4"
+  ],
+  "disease3": [
+    "symptom1",
+    "symptom2"
+  ]
+}
+
+
+NOTE:
+  - the whole document is wraped with curly braces {}
+  - the items consists of key value pairs ex (disease1 is the key the value for that key is the list of symptoms)
+  - the list of symptoms is wraped with brackets []
+  - symptoms values are seperated with a comma
+  - the key(disease) and value(symptom list) is seperated with a colun :
+  - any words must be double quoted
+  - disease items are seperated with a comma
