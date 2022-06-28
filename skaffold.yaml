@@ -32,4 +32,19 @@ build:
         manual:
           - src: '*.py'
             dest: .
-
+    - image: mahmoudeid9/sym-checker
+      context: sym-checker
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: 'src/**/*.ts'
+            dest: .
+    - image: mahmoudeid9/barcode-checker
+      context: barcode-checker
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: 'src/**/*.ts'
+            dest: .

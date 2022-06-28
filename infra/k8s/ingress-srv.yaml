@@ -30,3 +30,17 @@ spec:
                 name: image-recog-srv
                 port:
                   number: 3002
+          - path: /api/sym-checker/?(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: sym-checker-srv
+                port:
+                  number: 3003
+          - path: /api/barcode/?(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: barcode-checker-srv
+                port:
+                  number: 3004

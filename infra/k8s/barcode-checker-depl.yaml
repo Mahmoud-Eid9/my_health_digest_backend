@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: barcode-checker-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: barcode-checker
+  template:
+    metadata:
+      labels:
+        app: barcode-checker
+    spec:
+      containers:
+        - name: barcode-checker
+          image: mahmoudeid9/barcode-checker
+          env: 
+            - name: JWT_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: jwt-secret
+                  key: JWT_KEY
+            - name: MONGO_URL
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-url
+                  key: MONGO_URL
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: barcode-checker-srv
+spec:
+  selector:
+    app: barcode-checker
+  ports:
+  - name: barcode-checker
+    protocol: TCP
+    port: 3004
+    targetPort: 3004
