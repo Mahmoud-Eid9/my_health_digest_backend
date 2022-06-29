@@ -7,7 +7,7 @@ interface MedAttrs {
   dosage: number;
   duration: {
     value: number;
-    unit: stirng;
+    unit: string;
   }
 }
 
