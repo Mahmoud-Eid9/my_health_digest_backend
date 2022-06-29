@@ -8,7 +8,9 @@ interface MedAttrs {
   duration: {
     value: number;
     unit: string;
-  }
+  };
+  frequency: Array<string>;
+  time: Array<string>;
 }
 
 // An interface that descirbes the properties
@@ -20,8 +22,14 @@ interface MedModel extends mongoose.Model<MedDoc> {
 // An interface that describes the propterties
 // That a User document has
 interface MedDoc extends mongoose.Document {
-  disease: string;
-  symptoms: Array<string>
+  name: string;
+  dosage: number;
+  duration: {
+    value: number;
+    unit: string;
+  };
+  frequency: Array<string>;
+  time: Array<string>;
 }
 const durationSchema = new mongoose.Schema({
   value: {

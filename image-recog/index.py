@@ -16,8 +16,11 @@ def upload():
 
     if not pic:
         return 'No photo uploaded', 400
+    try:
+        return json.dumps(label_count[0])
+    except:
+        return json.dumps([])
 
-    return json.dumps(label_count[0]), 200
 
 
 if __name__ == "__main__":

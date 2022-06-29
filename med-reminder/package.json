@@ -6,5 +6,16 @@
     "mongoose": "^6.4.1",
     "ts-node-dev": "^2.0.0",
     "typescript": "^4.7.4"
-  }
+  },
+  "name": "med-reminder",
+  "version": "1.0.0",
+  "main": "index.js",
+  "devDependencies": {},
+  "scripts": {
+    "start": "ts-node-dev --poll src/index.ts"
+  },
+  "keywords": [],
+  "author": "Mahmoud Eid",
+  "license": "ISC",
+  "description": ""
 }

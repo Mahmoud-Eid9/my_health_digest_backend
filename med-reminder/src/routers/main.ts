@@ -5,10 +5,14 @@ const router = express.Router();
 router.post('/api/med-reminder/add', async (req: Request, res: Response) => {
   const { name, dosage, duration, frequency, time } = req.body;
 
-  const disease = await Reminder.find({ symptoms: { $all: symptoms } });
-  console.log(disease);
+  const result = await Reminder.build({ name, dosage, duration, frequency, time});
+  await result.save();
+  res.status(200).send(result);
+});
 
-  res.status(200).send(disease);
+router.get('/api/med-reminder/get', async (req: Request, res: Response) => {
+  const reminders = await Reminder.find();
+  res.status(200).send(reminders);
 });
 
 export { router as main };
