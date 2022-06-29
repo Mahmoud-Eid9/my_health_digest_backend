@@ -6,7 +6,8 @@ interface MedAttrs {
   name: string;
   dosage: number;
   duration: {
-    
+    value: number;
+    unit: stirng;
   }
 }
 
@@ -62,4 +63,4 @@ medSchema.statics.build = (attrs: MedAttrs) => {
 
 const Reminder = mongoose.model<MedDoc, MedModel>('Reminder', medSchema);
 
-export 
+export { Reminder };
