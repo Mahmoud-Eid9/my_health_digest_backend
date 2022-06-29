@@ -16,6 +16,12 @@
   ]
 }
 
+medName,
+dose,
+duration,
+frequency,
+times
+
 
 NOTE:
   - the whole document is wraped with curly braces {}

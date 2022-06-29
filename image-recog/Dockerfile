@@ -1,8 +1,6 @@
-FROM python:3.8
+FROM python:3.7
 
-COPY requirements.txt ./requirements.txt
-COPY index.py ./index.py
-COPY analyze.py ./analyze.py
+COPY ./ ./
 
 RUN pip install -r requirements.txt
 

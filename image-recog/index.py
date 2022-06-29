@@ -9,8 +9,8 @@ app = Flask(__name__)
 def upload():
     pic = request.files['pic']
 
-    model = 'arn:aws:rekognition:us-east-1:161637438916:project/flowers_1/version/flowers_1.2022-06-23T15.20.57/1655990456651'
-    min_confidence = 60
+    model = 'arn:aws:rekognition:us-east-1:161637438916:project/Food-Calories/version/Food-Calories.2022-06-27T11.15.02/1656321302920'
+    min_confidence = 70
     label_count = show_custom_labels(model, pic, min_confidence)
     print("Custom labels detected: " + str(label_count))
 
