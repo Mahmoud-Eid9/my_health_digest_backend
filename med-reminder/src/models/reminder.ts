@@ -11,6 +11,7 @@ interface MedAttrs {
   };
   frequency: Array<string>;
   time: Array<string>;
+  userid: string;
 }
 
 // An interface that descirbes the properties
@@ -30,6 +31,7 @@ interface MedDoc extends mongoose.Document {
   };
   frequency: Array<string>;
   time: Array<string>;
+  userid: string
 }
 const durationSchema = new mongoose.Schema({
   value: {
@@ -61,6 +63,10 @@ const medSchema = new mongoose.Schema({
     } ,
     time: {
       type: [String],
+      Required: true
+    },
+    userid: {
+      type: String,
       Required: true
     }
 });

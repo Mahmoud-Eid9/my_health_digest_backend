@@ -10,9 +10,8 @@ import { main } from './routers/main';
 
 const app = express();
 app.use(json());
-// app.use(currentUser);
-// app.use(requireAuth);
-
+app.use(currentUser)
+app.use(requireAuth)
 app.use(main)
 
 app.all('*', async (req, res) => {

@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: barcode-checker-depl
+  name: med-reminder-depl
 spec:
   replicas: 1 #replicas of pods
   selector:
     matchLabels:
-      app: barcode-checker
+      app: med-reminder
   template:
     metadata:
       labels:
-        app: barcode-checker
+        app: med-reminder
     spec:
       containers:
-        - name: barcode-checker
-          image: mahmoudeid9/barcode-checker #container hosted on dockerhub
+        - name: med-reminder
+          image: mahmoudeid9/med-reminder #container hosted on dockerhub
           env: 
             - name: JWT_KEY #allow use of this secret inside the deployment
               valueFrom:
@@ -31,12 +31,12 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: barcode-checker-srv #name of service
+  name: med-reminder-srv #name of service
 spec:
   selector:
-    app: barcode-checker # name of deployment we attach this service to
+    app: med-reminder # name of deployment we attach this service to
   ports:
-  - name: barcode-checker
+  - name: med-reminder
     protocol: TCP
-    port: 3004 # the exposed port
-    targetPort: 3004 # targeted port inside the deployment
+    port: 3005 # the exposed port
+    targetPort: 3005 # targeted port inside the deployment

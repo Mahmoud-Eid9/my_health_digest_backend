@@ -44,3 +44,10 @@ spec:
                 name: barcode-checker-srv
                 port:
                   number: 3004
+          - path: /api/med-reminder/?(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: med-reminder-srv
+                port:
+                  number: 3005

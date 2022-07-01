@@ -48,3 +48,11 @@ build:
         manual:
           - src: 'src/**/*.ts'
             dest: .
+    - image: mahmoudeid9/med-reminder
+      context: med-reminder
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: 'src/**/*.ts'
+            dest: .
