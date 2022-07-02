@@ -1,3 +1,4 @@
+import { currentUser, requireAuth } from '@myhealthdigest/auth-middleware';
 import express, { Request, Response } from 'express';
 import { Reminder } from '../models/reminder';
 const router = express.Router();
