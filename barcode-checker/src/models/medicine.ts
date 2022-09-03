@@ -48,7 +48,15 @@ const medSchema = new mongoose.Schema({
       type: String,
       Required: true
     }
-});
+  },
+    {
+      toJSON: {
+        transform(doc, ret) {
+          ret.id = ret._id;
+        },
+      },
+    }
+);
 
 const Medicine = mongoose.model<MedDoc, MedModel>('Medicine', medSchema);
 

@@ -51,3 +51,10 @@ spec:
                 name: med-reminder-srv
                 port:
                   number: 3005
+          - path: /api/weight-mon/?(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: weight-mon-srv
+                port:
+                  number: 3006

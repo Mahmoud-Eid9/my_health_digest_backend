@@ -6,6 +6,7 @@ import mongoose from 'mongoose';
 import { currentUserRouter } from './routes/current-user';
 import { signinRouter } from './routes/signin';
 import { signupRouter } from './routes/signup';
+import { accessRouter } from './routes/access-codes';
 import { errorHandler } from '@myhealthdigest/auth-middleware';
 import { NotFoundError } from '@myhealthdigest/auth-middleware';
 
@@ -15,6 +16,7 @@ app.use(json());
 app.use(currentUserRouter);
 app.use(signinRouter);
 app.use(signupRouter);
+app.use(accessRouter);
 
 app.all('*', async (req, res) => {
   throw new NotFoundError();

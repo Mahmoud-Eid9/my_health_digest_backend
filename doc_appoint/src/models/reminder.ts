@@ -42,6 +42,13 @@ const durationSchema = new mongoose.Schema({
     type: String,
     Required: true
   }
+},
+{
+  toJSON: {
+    transform(doc, ret) {
+      ret.id = ret._id;
+    },
+  },
 })
 
 const medSchema = new mongoose.Schema({
@@ -69,19 +76,12 @@ const medSchema = new mongoose.Schema({
       type: String,
       Required: true
     }
-},
-{
-  toJSON: {
-    transform(doc, ret) {
-      ret.id = ret._id;
-    },
-  },
 });
 
 medSchema.statics.build = (attrs: MedAttrs) => {
   return new Reminder(attrs);
 };
 
-const Reminder = mongoose.model<MedDoc, MedModel>('Reminder', medSchema);
+const Reminder = mongoose.model<MedDoc, MedModel>('Appointment', medSchema);
 
 export { Reminder };

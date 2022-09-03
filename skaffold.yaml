@@ -56,3 +56,11 @@ build:
         manual:
           - src: 'src/**/*.ts'
             dest: .
+    - image: mahmoudeid9/weight-mon
+      context: weight-mon
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: 'src/**/*.ts'
+            dest: .

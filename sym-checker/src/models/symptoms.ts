@@ -29,6 +29,13 @@ const sympSchema = new mongoose.Schema({
       type: [String],
       Required: true
     }
+},
+{
+  toJSON: {
+    transform(doc, ret) {
+      ret.id = ret._id;
+    },
+  },
 });
 
 const Symptom = mongoose.model<SymDoc, UserModel>('Symptom', sympSchema);

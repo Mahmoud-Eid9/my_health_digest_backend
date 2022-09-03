@@ -9,6 +9,8 @@ interface UserAttrs {
   name: string;
   age: number;
   gender: string;
+  admin: boolean;
+  activated: boolean;
 }
 
 // An interface that descirbes the properties
@@ -25,6 +27,8 @@ interface UserDoc extends mongoose.Document {
   name: string;
   age: number;
   gender: string;
+  admin: boolean;
+  activated: boolean;
 }
 
 const userSchema = new mongoose.Schema(
@@ -37,16 +41,23 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    name:{
+    name: {
       type: String,
-      required: true
+      required: true,
     },
     age: {
       type: Number,
-      required: true
+      required: true,
     },
     gender: {
       type: String,
+      required: true,
+    },
+    admin: {
+      type: Boolean,
+    },
+    activated: {
+      type: Boolean,
       required: true
     }
   },

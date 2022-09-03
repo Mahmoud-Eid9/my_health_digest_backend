@@ -28,7 +28,7 @@ router.post(
     if (existingUser) {
       throw new BadRequestError('Email already exists');
     }
-    const user = User.build({ email, password, name, age, gender });
+    const user = User.build({ email, password, name, age, gender, admin: false, activated: false });
     await user.save();
 
     // Generate JWT
@@ -39,6 +39,8 @@ router.post(
         name: user.name,
         age: user.age,
         gender: user.gender,
+        admin: user.admin,
+        activated: user.activated,
       },
       process.env.JWT_KEY!
     );

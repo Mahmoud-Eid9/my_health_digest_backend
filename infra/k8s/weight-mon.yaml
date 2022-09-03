@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: weight-mon-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: weight-mon
+  template:
+    metadata:
+      labels:
+        app: weight-mon
+    spec:
+      containers:
+        - name: weight-mon
+          image: mahmoudeid9/weight-mon
+          env: 
+            - name: JWT_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: jwt-secret
+                  key: JWT_KEY
+            - name: MONGO_URL
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-url
+                  key: MONGO_URL
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: weight-mon-srv
+spec:
+  selector:
+    app: weight-mon
+  ports:
+  - name: weight-mon
+    protocol: TCP
+    port: 3006
+    targetPort: 3006
