@@ -17,7 +17,7 @@ router.post('/api/users/generate', currentUser, async (req, res) => {
     const { codes } = req.body;
     const generated: string[] = [];
     for (let i = 0; i < codes; i++) {
-      const temp = randomBytes(32).toString('hex');
+      const temp = randomBytes(16).toString('hex');
       const result = await Code.build({ code: temp, userId: null, used: false });
       try {
         await result.save();
@@ -58,6 +58,18 @@ router.post('/api/users/activate', currentUser ,async (req, res) => {
 router.get('/api/users/codes', async (req, res) => {
   const codes = await Code.find()
   res.status(200).send(codes)
+})
+
+router.delete('/api/users/codes/:id', async (req,res) => {
+  const id = req.params.id;
+  try {
+    await Code.findOneAndDelete({_id: id})
+  } catch (error) {
+    res.send("Error")
+  }
+  res.status(204).send("Deleted Successfully")
+
+
 })
 
 export { router as accessRouter };
