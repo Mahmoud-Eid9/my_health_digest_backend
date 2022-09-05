@@ -37,8 +37,8 @@ const start = async () => {
   }
 };
 
-app.listen(3003, () => {
-  console.log('listening on port 3003...');
+app.listen(3006, () => {
+  console.log('listening on port 3006...');
 });
 
 start();

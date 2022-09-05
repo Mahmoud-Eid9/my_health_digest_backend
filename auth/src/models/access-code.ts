@@ -6,6 +6,8 @@ interface CodeAttrs {
   code: string;
   userId: string | null;
   used: boolean;
+  duration: string;
+  company: string | null;
 }
 
 // An interface that descirbes the properties
@@ -20,25 +22,34 @@ interface CodeDoc extends mongoose.Document {
   code: string;
   userId: string | null;
   used: boolean;
+  duration: string;
+  company: string | null;
 }
 
-const codeSchema = new mongoose.Schema(
-  {
-    code: {
-      type: String,
-      required: true,
-    },
-    userId: {
-      type: String,
-      required: false,
-      default: null
-    },
-    used: {
-      type: Boolean,
-      required: true,
-    }
-  }
-);
+const codeSchema = new mongoose.Schema({
+  code: {
+    type: String,
+    required: true,
+  },
+  userId: {
+    type: String,
+    required: false,
+    default: null,
+  },
+  used: {
+    type: Boolean,
+    required: true,
+  },
+  duration: {
+    type: String,
+    required: true
+  },
+  company: {
+    type: String,
+    required: false,
+    default: null,
+  },
+});
 
 codeSchema.statics.build = (attrs: CodeAttrs) => {
   return new Code(attrs);

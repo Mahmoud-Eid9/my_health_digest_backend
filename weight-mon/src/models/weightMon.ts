@@ -7,10 +7,7 @@ interface WeightAttrs {
   cal_goal: number;
   cal_progress: number;
   water: number;
-  weight: Array<{
-    date: string;
-    value: number;
-  }>;
+  weight: { date: string; value: number }[];
 }
 
 // An interface that descirbes the properties
@@ -26,54 +23,44 @@ interface WeightDoc extends mongoose.Document {
   cal_goal: number;
   cal_progress: number;
   water: number;
-  weight: Array<{
-    date: string;
-    value: number;
-  }>;
+  weight: { date: string; value: number }[];
 }
 
 const weightSchema = new mongoose.Schema({
   userId: {
     type: String,
-    Required: true
+    Required: true,
   },
   cal_goal: {
     type: Number,
-    Required: true
+    Required: true,
   },
   cal_progress: {
     type: Number,
-    Required: true
+    Required: true,
   },
-  water:{
+  water: {
     type: Number,
-    Required: true
+    Required: true,
   },
-  weight:[{
-    date: {
-      type: String,
-      Required: true
+  weight: [
+    {
+      date: {
+        type: String,
+        Required: true,
+      },
+      value: {
+        type: Number,
+        Required: true,
+      },
     },
-    value: {
-      type: Number,
-      Required: true
-    }
-  }]
-},
-{
-  toJSON: {
-    transform(doc, ret) {
-      ret.id = ret._id;
-    },
-  },
+  ],
 });
-
-
-
-const Weight = mongoose.model<WeightDoc, WeightModel>('WeightMonitoring', weightSchema);
 
 weightSchema.statics.build = (attrs: WeightAttrs) => {
   return new Weight(attrs);
 };
+
+const Weight = mongoose.model<WeightDoc, WeightModel>('WeightMonitoring', weightSchema);
 
 export { Weight };

@@ -21,14 +21,14 @@ router.post(
   ],
   validateRequest,
   async (req: Request, res: Response) => {
-    const { email, password, name, age, gender } = req.body;
+    const { email, password, name, age, gender, company } = req.body;
 
     const existingUser = await User.findOne({ email });
 
     if (existingUser) {
       throw new BadRequestError('Email already exists');
     }
-    const user = User.build({ email, password, name, age, gender, admin: false, activated: false });
+    const user = User.build({ email, password, name, age, gender, admin: false, activated: false,expiration: null, company });
     await user.save();
 
     // Generate JWT
@@ -41,6 +41,8 @@ router.post(
         gender: user.gender,
         admin: user.admin,
         activated: user.activated,
+        expiration: user.expiration,
+        company: user.company
       },
       process.env.JWT_KEY!
     );

@@ -11,6 +11,8 @@ interface UserAttrs {
   gender: string;
   admin: boolean;
   activated: boolean;
+  expiration: string | null;
+  company: string;
 }
 
 // An interface that descirbes the properties
@@ -29,6 +31,8 @@ interface UserDoc extends mongoose.Document {
   gender: string;
   admin: boolean;
   activated: boolean;
+  expiration: string;
+  company: string;
 }
 
 const userSchema = new mongoose.Schema(
@@ -58,6 +62,15 @@ const userSchema = new mongoose.Schema(
     },
     activated: {
       type: Boolean,
+      required: true
+    },
+    expiration:{
+      type: String,
+      required: false,
+      default: null
+    },
+    company:{
+      type: String,
       required: true
     }
   },
