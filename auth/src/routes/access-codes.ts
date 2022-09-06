@@ -53,11 +53,11 @@ router.post('/api/users/activate', currentUser, async (req: Request, res: Respon
     if (!existingCode) {
       throw new BadRequestError('Invalid Access Code');
     }
-    const duration = existingCode.duration.split(" ")
-    const expiration = moment().tz(zone).add(parseInt(duration[0]), duration[1]).format(format)
+    const duration = existingCode.duration.split(' ');
+    const expiration = moment().tz(zone).add(parseInt(duration[0]), duration[1]).format(format);
     await User.findOneAndUpdate({ _id: id }, { activated: true, expiration: expiration });
-    await Code.findOneAndUpdate({ code, used: false }, { userId: id, used: true});
-    res.status(204).send({activated: true});
+    await Code.findOneAndUpdate({ code, used: false }, { userId: id, used: true });
+    res.status(204).send({ activated: true });
   } catch (error) {
     res.status(422).send({ error: 'Access code is not correct' });
   }
@@ -68,18 +68,19 @@ router.get('/api/users/codes', async (req, res) => {
   res.status(200).send(codes);
 });
 
-router.delete('/api/users/codes',currentUser, requireAuth, async (req, res) => {
-  const {id} = req.body;
+router.post('/api/users/codes/delete', currentUser, requireAuth, async (req, res) => {
+  const { id } = req.body;
   try {
     id.forEach(async (singleId: Array<string>) => {
-      const code = await Code.findOne({_id: singleId})
-      await User.findOneAndUpdate({_id: code?.userId }, {activated: false, expiration: null})
-      await Code.findOneAndDelete({ _id: singleId });  
+      const code = await Code.findOne({ _id: singleId });
+      await User.findOneAndUpdate({ _id: code?.userId }, { activated: false, expiration: null });
+      await Code.findOneAndDelete({ _id: singleId });
     });
+    const codes = Code.find();
+    res.status(204).send(codes);
   } catch (error) {
-    res.send('Error');
+    res.send({ message: 'Error' });
   }
-  res.status(204).send('Deleted Successfully');
 });
 
 export { router as accessRouter };

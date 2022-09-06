@@ -12,33 +12,9 @@ router.post('/api/sym-checker/find-disease', async (req: Request, res: Response)
   res.status(200).send(disease);
 });
 
-router.post('/api/sym-checker/autocomplete', async (req: Request, res: Response) => {
+router.post('/api/sym-checker/symptoms', async (req: Request, res: Response) => {
   const { search } = req.body;
-  const results = await SympAutocomp.aggregate([
-    {
-      $search: {
-        index: 'autocomplete',
-        autocomplete: {
-          query: search,
-          path: 'name',
-          fuzzy: {
-            maxEdits: 1,
-          },
-          tokenOrder: 'sequential',
-        },
-      },
-    },
-    {
-      $project: {
-        name: 1,
-        _id: 1,
-        score: { $meta: 'searchScore' },
-      },
-    },
-    {
-      $limit: 5,
-    },
-  ]);
+  const results = await SympAutocomp.find()
   res.send(results);
 });
 
