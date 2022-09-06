@@ -7,6 +7,7 @@ interface WeightAttrs {
   cal_goal: number;
   cal_progress: number;
   water: number;
+  exercise: number;
   weight: { date: string; value: number }[];
 }
 
@@ -23,6 +24,7 @@ interface WeightDoc extends mongoose.Document {
   cal_goal: number;
   cal_progress: number;
   water: number;
+  exercise: number;
   weight: { date: string; value: number }[];
 }
 
@@ -42,6 +44,10 @@ const weightSchema = new mongoose.Schema({
   water: {
     type: Number,
     Required: true,
+  },
+  exercise:{
+    type: Number,
+    required: true
   },
   weight: [
     {

@@ -68,12 +68,14 @@ router.get('/api/users/codes', async (req, res) => {
   res.status(200).send(codes);
 });
 
-router.delete('/api/users/codes/:id', async (req, res) => {
-  const id = req.params.id;
+router.delete('/api/users/codes/:id',currentUser, requireAuth, async (req, res) => {
+  const {id} = req.body;
   try {
-    const code = await Code.findOne({_id: id})
-    await User.findOneAndUpdate({_id: code?.userId }, {activated: false})
-    await Code.findOneAndDelete({ _id: id });
+    id.forEach(async (singleId: Array<string>) => {
+      const code = await Code.findOne({_id: singleId})
+      await User.findOneAndUpdate({_id: code?.userId }, {activated: false, expiration: null})
+      await Code.findOneAndDelete({ _id: singleId });  
+    });
   } catch (error) {
     res.send('Error');
   }
