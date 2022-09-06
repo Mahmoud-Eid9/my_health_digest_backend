@@ -68,7 +68,7 @@ router.get('/api/users/codes', async (req, res) => {
   res.status(200).send(codes);
 });
 
-router.delete('/api/users/codes/:id',currentUser, requireAuth, async (req, res) => {
+router.delete('/api/users/codes',currentUser, requireAuth, async (req, res) => {
   const {id} = req.body;
   try {
     id.forEach(async (singleId: Array<string>) => {
