@@ -3,6 +3,11 @@ import { Symptom } from '../models/symptoms';
 import { SympAutocomp } from '../models/SymAutocomplete';
 const router = express.Router();
 
+interface symptomAttrs  {
+  _id: string;
+  name: string;
+}
+
 router.post('/api/sym-checker/find-disease', async (req: Request, res: Response) => {
   const { symptoms } = req.body;
 
@@ -12,10 +17,15 @@ router.post('/api/sym-checker/find-disease', async (req: Request, res: Response)
   res.status(200).send(disease);
 });
 
-router.post('/api/sym-checker/symptoms', async (req: Request, res: Response) => {
+router.get('/api/sym-checker/symptoms', (req: Request, res: Response) => {
   const { search } = req.body;
-  const results = await SympAutocomp.find()
-  res.send(results);
+  const results =  SympAutocomp.find({},(err: Error, doc: Array<symptomAttrs>) => {
+    const symArray: Array<String> = [];
+    doc.forEach((sym) => {
+      symArray.push(sym.name)
+    })
+    res.send(symArray);
+  })
 });
 
 export { router as main };

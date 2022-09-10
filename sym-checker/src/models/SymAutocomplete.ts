@@ -21,14 +21,7 @@ interface SymDoc extends mongoose.Document {
 const sympSchema = new mongoose.Schema({
   name: {
     type: String,
-    Required: true
-  }
-},
-{
-  toJSON: {
-    transform(doc, ret) {
-      ret.id = ret._id;
-    },
+    Required: true,
   },
 });
 
