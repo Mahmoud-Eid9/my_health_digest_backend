@@ -7,14 +7,22 @@ interface symptomAttrs  {
   _id: string;
   name: string;
 }
+interface disAttrs  {
+  _id: string;
+  disease: string;
+  symptoms: Array<string>;
+}
 
 router.post('/api/sym-checker/find-disease', async (req: Request, res: Response) => {
   const { symptoms } = req.body;
 
-  const disease = await Symptom.find({ symptoms: { $all: symptoms } });
-  console.log(disease);
-
-  res.status(200).send(disease);
+Symptom.find({ symptoms: { $all: symptoms } },(err: Error, doc: Array<disAttrs>) => {
+    const disArray: Array<String> = [];
+    doc.forEach((dis) => {
+      disArray.push(dis.disease)
+    })
+    res.send(disArray);
+  } );
 });
 
 router.get('/api/sym-checker/symptoms', (req: Request, res: Response) => {
