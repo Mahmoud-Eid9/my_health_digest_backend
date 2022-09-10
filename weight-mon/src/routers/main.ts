@@ -106,6 +106,17 @@ router.get(
     }
     const id = req.currentUser.id;
     const weight = await Weight.findOne({ userId: id });
+    if (!weight) {
+      const newWeight = await Weight.build({
+        userId: id,
+        cal_goal: 0,
+        cal_progress: 0,
+        water: 0,
+        exercise: 0,
+        weight: [],
+      });
+      res.status(200).send(newWeight)
+    }
     res.status(200).send(weight);
   }
 );
