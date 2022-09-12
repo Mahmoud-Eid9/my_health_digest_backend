@@ -77,7 +77,7 @@ router.post('/api/users/codes/delete', currentUser, requireAuth, async (req, res
       await Code.findOneAndDelete({ _id: singleId });
     });
     const codes = Code.find();
-    res.status(204).send(codes);
+    res.status(200).send({message: 'Done'});
   } catch (error) {
     res.send({ message: 'Error' });
   }

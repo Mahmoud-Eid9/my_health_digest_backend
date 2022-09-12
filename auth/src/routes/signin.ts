@@ -25,7 +25,8 @@ router.post(
     const { email, password } = req.body;
 
     const existingUser = await User.findOne({ email });
-
+    try {
+      
     if (!existingUser) {
       throw new BadRequestError('Invalid credentials');
     }
@@ -67,25 +68,35 @@ router.post(
     }
 
     res.status(200).send({ token: userJwt, existingUser });
+    } catch (error) {
+      res.send({message: "Invalid credentials"})
+    }
+
   }
 );
 
 router.get('/api/users/verify', currentUser, requireAuth, async (req, res) => {
   const user = await User.findById(req.currentUser?.id);
-  if (!user) {
-    throw new BadRequestError('No Such User');
-  }
-  if (user.activated) {
-    if (moment.tz(user.expiration, format, zone).isBefore(moment().tz(zone))) {
-      await User.findOneAndUpdate({ _id: user.id }, { activated: false, expiration: null });
-      await Code.findOneAndDelete({ userId: user.id });
-      res.status(200).send({ activated: false });
-    } else {
-      res.status(200).send({ activated: true });
+  try {
+    if (!user) {
+      throw new BadRequestError('No Such User');
     }
-  } else {
-    res.status(200).send({ activated: false });
+    if (user.activated) {
+      if (moment.tz(user.expiration, format, zone).isBefore(moment().tz(zone))) {
+        await User.findOneAndUpdate({ _id: user.id }, { activated: false, expiration: null });
+        await Code.findOneAndDelete({ userId: user.id });
+        res.status(200).send({ activated: false });
+      } else {
+        res.status(200).send({ activated: true });
+      }
+    } else {
+      res.status(200).send({ activated: false });
+    }
+  } catch (error) {
+    res.send({message: "No Such User"})
   }
+
+
 });
 
 export { router as signinRouter };

@@ -14,25 +14,30 @@ router.post(
   async (req: Request, res: Response) => {
     const { cal_goal, cal_progress, water, exercise, weight } = req.body;
     const userId = req.currentUser?.id;
-    if (!userId) {
-      throw new BadRequestError('No Such User');
+    try {
+      if (!userId) {
+        throw new BadRequestError('No Such User');
+      }
+      const temp = await Weight.findOne({ userId: userId });
+      if (!temp) {
+        const userWeight = await Weight.build({
+          userId,
+          cal_goal,
+          cal_progress,
+          water,
+          exercise,
+          weight,
+        });
+        userWeight.save();
+        console.log(userWeight);
+        res.status(200).send(userWeight);
+      } else {
+        res.send({ error: 'User Already Has Weight Data' });
+      }
+    } catch (error) {
+      res.send({message: "No Such User"})
     }
-    const temp = await Weight.findOne({ userId: userId });
-    if (!temp) {
-      const userWeight = await Weight.build({
-        userId,
-        cal_goal,
-        cal_progress,
-        water,
-        exercise,
-        weight,
-      });
-      userWeight.save();
-      console.log(userWeight);
-      res.status(200).send(userWeight);
-    } else {
-      res.send({ error: 'User Already Has Weight Data' });
-    }
+ 
   }
 );
 
@@ -41,13 +46,17 @@ router.post(
   currentUser,
   requireAuth,
   async (req: Request, res: Response) => {
-    if (!req.currentUser) {
-      throw new BadRequestError('No Such User');
+    try { 
+      if (!req.currentUser) {
+        throw new BadRequestError('No Such User');
+      }
+      const { water } = req.body;
+      const id = req.currentUser.id;
+      await Weight.findOneAndUpdate({ userId: id }, { water: water });
+      res.status(200).send({ message: 'Water Updated' });
+    } catch (error) {
+      res.send({message: "No Such User"})
     }
-    const { water } = req.body;
-    const id = req.currentUser.id;
-    await Weight.findOneAndUpdate({ userId: id }, { water: water });
-    res.status(200).send({ message: 'Water Updated' });
   }
 );
 
@@ -56,13 +65,17 @@ router.post(
   currentUser,
   requireAuth,
   async (req: Request, res: Response) => {
-    if (!req.currentUser) {
-      throw new BadRequestError('No Such User');
+    try {
+      if (!req.currentUser) {
+        throw new BadRequestError('No Such User');
+      }
+      const { calProgress } = req.body;
+      const id = req.currentUser.id;
+      await Weight.findOneAndUpdate({ userId: id }, { cal_progress: calProgress });
+      res.status(200).send({ message: 'Calories Progress Updated' });
+    } catch (error) {
+      res.send({message: "No Such User"})
     }
-    const { calProgress } = req.body;
-    const id = req.currentUser.id;
-    await Weight.findOneAndUpdate({ userId: id }, { cal_progress: calProgress });
-    res.status(200).send({ message: 'Calories Progress Updated' });
   }
 );
 
@@ -71,13 +84,17 @@ router.post(
   currentUser,
   requireAuth,
   async (req: Request, res: Response) => {
-    if (!req.currentUser) {
-      throw new BadRequestError('No Such User');
+    try {
+      if (!req.currentUser) {
+        throw new BadRequestError('No Such User');
+      }
+      const { calGoal } = req.body;
+      const id = req.currentUser.id;
+      await Weight.findOneAndUpdate({ userId: id }, { cal_goal: calGoal });
+      res.status(200).send({ message: 'Calories Goal Updated' });
+    } catch (error) {
+      res.send({message: "No Such User"})
     }
-    const { calGoal } = req.body;
-    const id = req.currentUser.id;
-    await Weight.findOneAndUpdate({ userId: id }, { cal_goal: calGoal });
-    res.status(200).send({ message: 'Calories Goal Updated' });
   }
 );
 
@@ -86,13 +103,18 @@ router.post(
   currentUser,
   requireAuth,
   async (req: Request, res: Response) => {
-    if (!req.currentUser) {
-      throw new BadRequestError('No Such User');
+    try {
+      if (!req.currentUser) {
+        throw new BadRequestError('No Such User');
+      }
+      const { exercise } = req.body;
+      const id = req.currentUser.id;
+      await Weight.findOneAndUpdate({ userId: id }, { exercise: exercise });
+      res.status(200).send({ message: 'Exercise Updated Updated' });
+    } catch (error) {
+      res.send({message: "No Such User"})
     }
-    const { exercise } = req.body;
-    const id = req.currentUser.id;
-    await Weight.findOneAndUpdate({ userId: id }, { exercise: exercise });
-    res.status(200).send({ message: 'Exercise Updated Updated' });
+   
   }
 );
 
@@ -101,23 +123,28 @@ router.get(
   currentUser,
   requireAuth,
   async (req: Request, res: Response) => {
-    if (!req.currentUser) {
-      throw new BadRequestError('No Such User');
+    try {
+      if (!req.currentUser) {
+        throw new BadRequestError('No Such User');
+      }
+      const id = req.currentUser.id;
+      const weight = await Weight.findOne({ userId: id });
+      if (!weight) {
+        const newWeight = await Weight.build({
+          userId: id,
+          cal_goal: 0,
+          cal_progress: 0,
+          water: 0,
+          exercise: 0,
+          weight: [],
+        });
+        res.status(200).send(newWeight)
+      }
+      res.status(200).send(weight);
+    } catch (error) {
+      res.send({message: "No Such User"})
     }
-    const id = req.currentUser.id;
-    const weight = await Weight.findOne({ userId: id });
-    if (!weight) {
-      const newWeight = await Weight.build({
-        userId: id,
-        cal_goal: 0,
-        cal_progress: 0,
-        water: 0,
-        exercise: 0,
-        weight: [],
-      });
-      res.status(200).send(newWeight)
-    }
-    res.status(200).send(weight);
+   
   }
 );
 
@@ -128,30 +155,35 @@ router.post(
   async (req: Request, res: Response) => {
     const { weight } = req.body;
     const temp = await Weight.findOne({ userId: req.currentUser?.id });
-    if (!temp) {
-      throw new BadRequestError('No Weight Data for User');
+    try {
+      if (!temp) {
+        throw new BadRequestError('No Weight Data for User');
+      }
+      const userWeight = temp.weight;
+      const x = null;
+      if (!userWeight) {
+        throw new BadRequestError('No Weight Data for User');
+      }
+      if (userWeight.length >= 5) {
+        userWeight.shift();
+        userWeight.push({ date: moment().format(format), value: weight });
+        const x = await Weight.findOneAndUpdate(
+          { userId: req.currentUser?.id },
+          { weight: userWeight }
+        );
+      } else {
+        userWeight.push({ date: moment().format(format), value: weight });
+        const x = await Weight.findOneAndUpdate(
+          { userId: req.currentUser?.id },
+          { weight: userWeight }
+        );
+      }
+      console.log(userWeight);
+      res.send(userWeight);
+    } catch (error) {
+      res.send({message: "No Weight Data for User"})
     }
-    const userWeight = temp.weight;
-    const x = null;
-    if (!userWeight) {
-      throw new BadRequestError('No Weight Data for User');
-    }
-    if (userWeight.length >= 5) {
-      userWeight.shift();
-      userWeight.push({ date: moment().format(format), value: weight });
-      const x = await Weight.findOneAndUpdate(
-        { userId: req.currentUser?.id },
-        { weight: userWeight }
-      );
-    } else {
-      userWeight.push({ date: moment().format(format), value: weight });
-      const x = await Weight.findOneAndUpdate(
-        { userId: req.currentUser?.id },
-        { weight: userWeight }
-      );
-    }
-    console.log(userWeight);
-    res.send(userWeight);
+  
   }
 );
 

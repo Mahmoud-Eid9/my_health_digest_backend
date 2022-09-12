@@ -25,29 +25,41 @@ router.post(
 
     const existingUser = await User.findOne({ email });
 
-    if (existingUser) {
-      throw new BadRequestError('Email already exists');
-    }
-    const user = User.build({ email, password, name, age, gender, admin: false, activated: false,expiration: null, company });
-    await user.save();
+    try {
+      if (existingUser) {
+        throw new BadRequestError('Email already exists');
+      }
+      const user = User.build({
+        email,
+        password,
+        name,
+        age,
+        gender,
+        admin: false,
+        activated: false,
+        expiration: null,
+        company,
+      });
+      await user.save();
 
-    // Generate JWT
-    const userJwt = jwt.sign(
-      {
-        id: user.id,
-        email: user.email,
-        name: user.name,
-        age: user.age,
-        gender: user.gender,
-        admin: user.admin,
-        activated: user.activated,
-        expiration: user.expiration,
-        company: user.company
-      },
-      process.env.JWT_KEY!
-    );
+      // Generate JWT
+      const userJwt = jwt.sign(
+        {
+          id: user.id,
+          email: user.email,
+          name: user.name,
+          age: user.age,
+          gender: user.gender,
+          admin: user.admin,
+          activated: user.activated,
+          expiration: user.expiration,
+          company: user.company,
+        },
+        process.env.JWT_KEY!
+      );
 
-    res.status(201).send({ token: userJwt, user });
+      res.status(201).send({ token: userJwt, user });
+    } catch (error) {}
   }
 );
 
