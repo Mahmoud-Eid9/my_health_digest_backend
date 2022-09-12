@@ -11,7 +11,7 @@ router.get('/api/users/currentuser', currentUser, requireAuth, (req, res) => {
     if(!currentUser){
       throw new BadRequestError("No Such User")
     }
-    res.send({ ...req.currentUser || null }); 
+    res.send({ ...req.currentUser }); 
   } catch (error) {
     res.send("No Such User")
   }

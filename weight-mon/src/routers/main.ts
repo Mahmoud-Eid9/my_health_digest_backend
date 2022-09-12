@@ -138,9 +138,11 @@ router.get(
           exercise: 0,
           weight: [],
         });
+        newWeight.save()
         res.status(200).send(newWeight)
+      }else{
+        res.status(200).send(weight);
       }
-      res.status(200).send(weight);
     } catch (error) {
       res.send({message: "No Such User"})
     }
