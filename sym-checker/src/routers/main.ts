@@ -26,7 +26,6 @@ Symptom.find({ symptoms: { $all: symptoms } },(err: Error, doc: Array<disAttrs>)
 });
 
 router.get('/api/sym-checker/symptoms', (req: Request, res: Response) => {
-  const { search } = req.body;
   const results =  SympAutocomp.find({},(err: Error, doc: Array<symptomAttrs>) => {
     const symArray: Array<String> = [];
     doc.forEach((sym) => {

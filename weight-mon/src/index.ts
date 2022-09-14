@@ -7,6 +7,7 @@ import { errorHandler } from '@myhealthdigest/auth-middleware';
 import { NotFoundError } from '@myhealthdigest/auth-middleware';
 import { currentUser, requireAuth } from '@myhealthdigest/auth-middleware';
 import { main } from './routers/main';
+import { calories } from './routers/calories';
 
 const app = express();
 app.use(json());
@@ -14,6 +15,7 @@ app.use(json());
 // app.use(requireAuth);
 
 app.use(main)
+app.use(calories)
 
 app.all('*', async (req, res) => {
   throw new NotFoundError();

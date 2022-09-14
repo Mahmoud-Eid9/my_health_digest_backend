@@ -12,6 +12,7 @@ interface MedAttrs {
   frequency: Array<string>;
   time: Array<string>;
   userid: string;
+  expiration: string;
 }
 
 // An interface that descirbes the properties
@@ -31,12 +32,14 @@ interface MedDoc extends mongoose.Document {
   };
   frequency: Array<string>;
   time: Array<string>;
-  userid: string
+  userid: string;
+  expiration: string;
 }
 const durationSchema = new mongoose.Schema({
   value: {
     type: Number,
-    Required: true
+    Required: false,
+    default: 0
   },
   unit: {
     type: String,
@@ -68,15 +71,13 @@ const medSchema = new mongoose.Schema({
     userid: {
       type: String,
       Required: true
-    }
-},
-{
-  toJSON: {
-    transform(doc, ret) {
-      ret.id = ret._id;
     },
-  },
-});
+    expiration: {
+      type: String,
+      required: true
+    }
+}
+);
 
 medSchema.statics.build = (attrs: MedAttrs) => {
   return new Reminder(attrs);
