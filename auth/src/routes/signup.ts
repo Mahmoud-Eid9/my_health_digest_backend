@@ -58,8 +58,10 @@ router.post(
         process.env.JWT_KEY!
       );
 
-      res.status(201).send({ token: userJwt, user });
-    } catch (error) {}
+      res.status(200).send({ token: userJwt, user });
+    } catch (error) {
+      res.send({message: "User Already Exists"})
+    }
   }
 );
 
