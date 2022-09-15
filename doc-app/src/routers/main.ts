@@ -21,7 +21,11 @@ router.get('/api/doc-app/get', async (req: Request, res: Response) => {
 router.post('/api/doc-app/delete', async (req: Request, res: Response) => {
   const { id } = req.body;
   const reminder = await Appoint.deleteOne({ _id: id });
-  res.status(200).send({ message: 'Done' });
+  if (reminder.deletedCount == 0) {
+    res.send({ message: 'No Such Appointment' });
+  } else {
+    res.status(200).send({ message: 'Done' });
+  }
 });
 
 export { router as main };
