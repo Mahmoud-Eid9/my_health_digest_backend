@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: doc-app-depl
+spec:
+  replicas: 1 #replicas of pods
+  selector:
+    matchLabels:
+      app: doc-app
+  template:
+    metadata:
+      labels:
+        app: doc-app
+    spec:
+      containers:
+        - name: doc-app
+          image: mahmoudeid9/doc-app #container hosted on dockerhub
+          env: 
+            - name: JWT_KEY #allow use of this secret inside the deployment
+              valueFrom:
+                secretKeyRef:
+                  name: jwt-secret
+                  key: JWT_KEY
+            - name: MONGO_URL #allow use of this secret inside the deployment
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-url
+                  key: MONGO_URL
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: doc-app-srv #name of service
+spec:
+  selector:
+    app: doc-app # name of deployment we attach this service to
+  ports:
+  - name: doc-app
+    protocol: TCP
+    port: 3007 # the exposed port
+    targetPort: 3007 # targeted port inside the deployment

@@ -64,3 +64,11 @@ build:
         manual:
           - src: 'src/**/*.ts'
             dest: .
+    - image: mahmoudeid9/doc-app
+      context: doc-app
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: 'src/**/*.ts'
+            dest: .

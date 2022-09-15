@@ -58,3 +58,10 @@ spec:
                 name: weight-mon-srv
                 port:
                   number: 3006
+          - path: /api/doc-app/?(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: doc-app-srv
+                port:
+                  number: 3007

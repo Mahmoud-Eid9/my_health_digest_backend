@@ -40,7 +40,6 @@ router.post('/api/med-reminder/add', async (req: Request, res: Response) => {
 router.get('/api/med-reminder/get', async (req: Request, res: Response) => {
   const userid = String(req.currentUser?.id);
   const reminders = await Reminder.find({ userid });
-  try {
     reminders.forEach(async (rem) => {
       if (rem.duration.unit != 'Lifetime') {
         if (moment.tz(rem.expiration, format, zone).isBefore(moment().tz(zone))) {
@@ -48,13 +47,6 @@ router.get('/api/med-reminder/get', async (req: Request, res: Response) => {
         }
       }
     });
-  } catch (error) {}
-  // doc.forEach((i) => {
-  //   if (moment.tz(i.expiration, format, zone).isBefore(moment().tz(zone))) {
-  //     i.remove();
-  //   }
-  // });
-  // });
   res.status(200).send(reminders);
 });
 
