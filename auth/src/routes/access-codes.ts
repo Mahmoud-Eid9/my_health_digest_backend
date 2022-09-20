@@ -57,7 +57,7 @@ router.post('/api/users/activate', currentUser, async (req: Request, res: Respon
     const expiration = moment().tz(zone).add(parseInt(duration[0]), duration[1]).format(format);
     await User.findOneAndUpdate({ _id: id }, { activated: true, expiration: expiration });
     await Code.findOneAndUpdate({ code, used: false }, { userId: id, used: true });
-    res.status(204).send({ activated: true });
+    res.status(200).send({ activated: true });
   } catch (error) {
     res.status(422).send({ error: 'Access code is not correct' });
   }
@@ -77,7 +77,7 @@ router.post('/api/users/codes/delete', currentUser, requireAuth, async (req, res
       await Code.findOneAndDelete({ _id: singleId });
     });
     const codes = Code.find();
-    res.status(200).send({message: 'Done'});
+    res.status(200).send({ message: 'Done' });
   } catch (error) {
     res.send({ message: 'Error' });
   }

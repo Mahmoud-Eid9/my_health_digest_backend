@@ -39,45 +39,44 @@ const durationSchema = new mongoose.Schema({
   value: {
     type: Number,
     Required: false,
-    default: 0
+    default: 0,
   },
   unit: {
     type: String,
-    Required: true
-  }
-})
+    Required: true,
+  },
+});
 
 const medSchema = new mongoose.Schema({
   name: {
     type: String,
-    Required: true
+    Required: true,
   },
-    dosage: {
-      type: Number,
-      Required: true
-    },
-    duration:{
-        type: durationSchema,
-        Required: true
-    },
-    frequency: {
-      type: [String],
-      Required: true
-    } ,
-    time: {
-      type: [String],
-      Required: true
-    },
-    userid: {
-      type: String,
-      Required: true
-    },
-    expiration: {
-      type: String,
-      required: true
-    }
-}
-);
+  dosage: {
+    type: Number,
+    Required: true,
+  },
+  duration: {
+    type: durationSchema,
+    Required: true,
+  },
+  frequency: {
+    type: [String],
+    Required: true,
+  },
+  time: {
+    type: [String],
+    Required: true,
+  },
+  userid: {
+    type: String,
+    Required: true,
+  },
+  expiration: {
+    type: String,
+    required: true,
+  },
+});
 
 medSchema.statics.build = (attrs: MedAttrs) => {
   return new Reminder(attrs);
