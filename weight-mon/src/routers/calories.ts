@@ -29,4 +29,15 @@ router.post(
   }
 );
 
+router.post(
+  '/api/weight-mon/getcalorie',
+  currentUser,
+  requireAuth,
+  async (req: Request, res: Response) => {
+    const { id } = req.body;
+    const item = await Calories.findOne({ _id: id });
+    res.status(200).send(item);
+  }
+);
+
 export { router as calories };

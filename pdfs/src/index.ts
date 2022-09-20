@@ -1,11 +1,9 @@
 import express from 'express';
-import {router} from './routes/main';
+import { router } from './routes/main';
 import { currentUser, requireAuth } from '@myhealthdigest/auth-middleware';
 
 const app = express();
 
-// app.use(currentUser)
-// app.use(requireAuth)
 app.use('/api/pdfs/static', express.static(__dirname + '/public'));
 app.use(express.json());
 
