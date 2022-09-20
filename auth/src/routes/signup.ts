@@ -15,7 +15,6 @@ router.post(
       .trim()
       .isLength({ min: 4, max: 20 })
       .withMessage('Password must be between 4 and 20 characters'),
-    body('name').isAlpha().withMessage('Name Must be only alphabetical characters'),
     body('gender').isLength({ min: 3, max: 7 }).withMessage('Must provide Valid gender'),
     body('age').isInt().withMessage('Age must be a valid'),
   ],
@@ -60,7 +59,7 @@ router.post(
 
       res.status(200).send({ token: userJwt, user });
     } catch (error) {
-      res.send({message: "User Already Exists"})
+      res.send({ message: 'User Already Exists' });
     }
   }
 );
