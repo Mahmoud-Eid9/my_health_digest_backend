@@ -23,13 +23,6 @@ spec:
                 name: pdfs-srv
                 port:
                   number: 3001
-          - path: /api/imagerecog/?(.*)
-            pathType: Prefix
-            backend:
-              service:
-                name: image-recog-srv
-                port:
-                  number: 3002
           - path: /api/sym-checker/?(.*)
             pathType: Prefix
             backend:

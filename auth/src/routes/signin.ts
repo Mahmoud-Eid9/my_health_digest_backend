@@ -69,7 +69,7 @@ router.post(
 
     res.status(200).send({ token: userJwt, existingUser });
     } catch (error) {
-      res.send({message: "Invalid credentials"})
+      res.status(400).send({message: "Invalid credentials"})
     }
 
   }
@@ -93,7 +93,7 @@ router.get('/api/users/verify', currentUser, requireAuth, async (req, res) => {
       res.status(200).send({ activated: false });
     }
   } catch (error) {
-    res.send({message: "No Such User"})
+    res.status(400).send({message: "No Such User"})
   }
 
 
