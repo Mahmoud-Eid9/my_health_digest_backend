@@ -2,7 +2,6 @@ import express from 'express';
 import 'express-async-errors';
 import { json } from 'body-parser';
 
-
 import { currentUserRouter } from './routes/current-user';
 import { signinRouter } from './routes/signin';
 import { signupRouter } from './routes/signup';
@@ -20,10 +19,10 @@ app.use(accessRouter);
 
 app.use((req, res, next) => {
   res.status(404).send({
-  status: 404,
-  error: 'Not found'
-  })
- })
+    status: 404,
+    error: 'Not found',
+  });
+});
 
 app.all('*', async (req, res) => {
   throw new NotFoundError();
@@ -31,4 +30,4 @@ app.all('*', async (req, res) => {
 
 app.use(errorHandler);
 
-export {app};
+export { app };
