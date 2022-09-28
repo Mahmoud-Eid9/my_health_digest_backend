@@ -5,7 +5,7 @@ import { app } from '../app';
 let mongo: any;
 beforeAll(async () => {
   process.env.JWT_KEY = 'sgewrfsdg';
-  const mongo = await MongoMemoryServer.create();
+  mongo = await MongoMemoryServer.create();
   const mongoUri = mongo.getUri();
 
   await mongoose.connect(mongoUri, {});
@@ -18,10 +18,9 @@ beforeEach(async () => {
   }
 });
 
-afterAll( done => {
+afterAll( async () => {
   if (mongo) {
-     mongo.stop();
+    await mongo.stop();
   }
-   mongoose.connection.close();
-   done()
+  await mongoose.connection.close();
 });
