@@ -34,7 +34,7 @@ metadata:
   name: barcode-checker-srv #name of service
 spec:
   selector:
-    app: barcode-checker # name of deployment we attach this service to
+    app: barcode-checker # name of deployment we attach this service to sg
   ports:
   - name: barcode-checker
     protocol: TCP
