@@ -1,0 +1,25 @@
+name: deploy-sym-checker
+
+on: 
+  push:
+    branches:
+      - master
+    paths:
+      - 'sym-checker/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: cd sym-checker && docker build -t mahmoudeid9/sym-checker .
+      - run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+      - run: docker push mahmoudeid9/sym-checker
+      - uses: digitalocean/action-doctl@v2
+        with:
+          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+      - run: doctl kubernetes cluster kubeconfig save k8s-1-24-4-do-0-nyc1-1663773721947
+      - run: kubectl rollout restart deployment sym-checker-depl
