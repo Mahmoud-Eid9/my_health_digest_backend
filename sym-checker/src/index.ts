@@ -21,7 +21,7 @@ app.use((req, res, next) => {
   error: 'Not found'
   })
  })
- 
+
 app.all('*', async (req, res) => {
   throw new NotFoundError();
 });
@@ -29,6 +29,7 @@ app.all('*', async (req, res) => {
 app.use(errorHandler);
 
 const start = async () => {
+  console.log("Sarting...");
   // if (!process.env.JWT_KEY) {
   //   throw new Error('JWT_KEY must be defined');
   // }
