@@ -1,0 +1,60 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-service
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/use-regex: "true"
+spec:
+  rules:
+     - http:
+        paths:
+          - path: /api/users/?(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: auth-srv
+                port:
+                  number: 3000
+          - path: /api/pdfs/?(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: pdfs-srv
+                port:
+                  number: 3001
+          - path: /api/sym-checker/?(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: sym-checker-srv
+                port:
+                  number: 3003
+          - path: /api/barcode/?(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: barcode-checker-srv
+                port:
+                  number: 3004
+          - path: /api/med-reminder/?(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: med-reminder-srv
+                port:
+                  number: 3005
+          - path: /api/weight-mon/?(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: weight-mon-srv
+                port:
+                  number: 3006
+          - path: /api/doc-app/?(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: doc-app-srv
+                port:
+                  number: 3007
