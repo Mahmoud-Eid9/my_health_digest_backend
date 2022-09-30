@@ -15,6 +15,13 @@ app.use(json());
 
 app.use(main)
 
+
+app.all('*', async (req, res) => {
+  throw new NotFoundError();
+});
+
+app.use(errorHandler);
+
 app.use((req, res, next) => {
   res.status(404).send({
   status: 404,
@@ -22,11 +29,6 @@ app.use((req, res, next) => {
   })
  })
 
-app.all('*', async (req, res) => {
-  throw new NotFoundError();
-});
-
-app.use(errorHandler);
 
 const start = async () => {
   console.log("Sarting...");

@@ -11,15 +11,16 @@ import { calories } from './routers/calories';
 const app = express();
 app.use(json());
 
+
+app.use(main)
+app.use(calories)
+
 app.use((req, res, next) => {
   res.status(404).send({
   status: 404,
   error: 'Not found'
   })
  })
-
-app.use(main)
-app.use(calories)
 
 app.all('*', async (req, res) => {
   throw new NotFoundError();

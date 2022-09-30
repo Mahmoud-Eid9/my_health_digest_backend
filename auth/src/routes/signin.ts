@@ -23,7 +23,7 @@ router.post(
   validateRequest,
   async (req: Request, res: Response) => {
     const { email, password } = req.body;
-
+    email.toLowerCase()
     const existingUser = await User.findOne({ email });
     try {
       

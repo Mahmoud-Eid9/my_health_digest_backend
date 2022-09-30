@@ -14,19 +14,19 @@ app.use(json());
 
 app.use(main);
 
-app.use((req, res, next) => {
-  res.status(404).send({
-  status: 404,
-  error: 'Not found'
-  })
- })
+
 
 app.all('*', async (req, res) => {
   throw new NotFoundError();
 });
 
 app.use(errorHandler);
-
+app.use((req, res, next) => {
+  res.status(404).send({
+  status: 404,
+  error: 'Not found'
+  })
+ })
 const start = async () => {
   console.log("Sarting...");
   // if (!process.env.JWT_KEY) {
