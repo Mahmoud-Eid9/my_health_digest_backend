@@ -16,7 +16,7 @@ const arrangePdfs = (category: string, language: string) => {
             .replaceAll(
               '.pdf',
               ''
-            )]: `http://10.0.2.2/api/pdfs/static/${language}/${category}/${file}`,
+            )]: `http://143.244.213.94/api/pdfs/static/${language}/${category}/${file}`,
         };
       }
       });
