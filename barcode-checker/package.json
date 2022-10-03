@@ -7,7 +7,7 @@
     "start": "ts-node-dev --poll src/index.ts"
   },
   "keywords": [],
-  "author": "",
+  "author": "Mahmoud Eid",
   "license": "ISC",
   "dependencies": {
     "@myhealthdigest/auth-middleware": "^1.0.3",

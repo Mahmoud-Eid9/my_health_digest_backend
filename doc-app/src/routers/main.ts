@@ -3,7 +3,7 @@ import express, { Request, Response } from 'express';
 import { Appoint } from '../models/reminder';
 const router = express.Router();
 
-router.post('/api/doc-app/add', async (req: Request, res: Response) => {
+router.post('/api/doc-app/add', currentUser, requireAuth ,async (req: Request, res: Response) => {
   const { name, date } = req.body;
   const userid = String(req.currentUser?.id);
 
