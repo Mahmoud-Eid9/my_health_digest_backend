@@ -53,7 +53,7 @@ router.get('/api/med-reminder/get', async (req: Request, res: Response) => {
 router.delete('/api/med-reminder/delete/:medId', async (req: Request, res: Response) => {
   const medId = req.params.medId;
   const reminder = await Reminder.deleteOne({ _id: medId });
-  res.status(204).send({deleted: reminder});
+  res.status(200).send({message: "Reminder Deleted"});
 });
 
 export { router as main };
