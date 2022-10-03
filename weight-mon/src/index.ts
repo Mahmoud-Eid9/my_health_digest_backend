@@ -22,10 +22,6 @@ app.use((req, res, next) => {
   })
  })
 
-app.all('*', async (req, res) => {
-  throw new NotFoundError();
-});
-
 app.use(errorHandler);
 
 const start = async () => {
