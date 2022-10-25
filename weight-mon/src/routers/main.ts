@@ -5,7 +5,8 @@ import { StringLiteral } from 'typescript';
 const router = express.Router();
 const moment = require('moment-timezone');
 
-const format = 'DD-MM';
+const format = 'DD-MM-YYYY';
+const zone = 'Africa/Cairo';
 
 router.post(
   '/api/weight-mon/weight',
@@ -27,6 +28,7 @@ router.post(
           water,
           exercise,
           weight,
+          date: moment().tz(zone).format(format)
         });
         userWeight.save();
         console.log(userWeight);
@@ -35,9 +37,9 @@ router.post(
         res.send({ error: 'User Already Has Weight Data' });
       }
     } catch (error) {
-      res.send({message: "No Such User"})
+      res.send({ message: "No Such User" })
     }
- 
+
   }
 );
 
@@ -46,7 +48,7 @@ router.post(
   currentUser,
   requireAuth,
   async (req: Request, res: Response) => {
-    try { 
+    try {
       if (!req.currentUser) {
         throw new BadRequestError('No Such User');
       }
@@ -55,7 +57,7 @@ router.post(
       await Weight.findOneAndUpdate({ userId: id }, { water: water });
       res.status(200).send({ message: 'Water Updated' });
     } catch (error) {
-      res.send({message: "No Such User"})
+      res.send({ message: "No Such User" })
     }
   }
 );
@@ -74,7 +76,7 @@ router.post(
       await Weight.findOneAndUpdate({ userId: id }, { cal_progress: calProgress });
       res.status(200).send({ message: 'Calories Progress Updated' });
     } catch (error) {
-      res.send({message: "No Such User"})
+      res.send({ message: "No Such User" })
     }
   }
 );
@@ -93,7 +95,7 @@ router.post(
       await Weight.findOneAndUpdate({ userId: id }, { cal_goal: calGoal });
       res.status(200).send({ message: 'Calories Goal Updated' });
     } catch (error) {
-      res.send({message: "No Such User"})
+      res.send({ message: "No Such User" })
     }
   }
 );
@@ -112,9 +114,9 @@ router.post(
       await Weight.findOneAndUpdate({ userId: id }, { exercise: exercise });
       res.status(200).send({ message: 'Exercise Updated Updated' });
     } catch (error) {
-      res.send({message: "No Such User"})
+      res.send({ message: "No Such User" })
     }
-   
+
   }
 );
 
@@ -134,19 +136,25 @@ router.get(
           userId: id,
           cal_goal: 0,
           cal_progress: 0,
-          water: 0,
+          water: 0.0,
           exercise: 0,
           weight: [],
+          date: moment().tz(zone).format(format)
         });
         newWeight.save()
         res.status(200).send(newWeight)
-      }else{
+      } else {
+        if (moment.tz(weight.date, format, zone).isBefore(moment().tz(zone).format(format))) {
+          const nWeight = await Weight.findOneAndUpdate({ _id: weight.id }, { cal_goal: 0, water: 0.0, exercise: 0 })
+          nWeight?.save()
+          res.status(200).send(nWeight)
+        }
         res.status(200).send(weight);
       }
     } catch (error) {
-      res.send({message: "No Such User"})
+      res.send({ message: "No Such User" })
     }
-   
+
   }
 );
 
@@ -183,9 +191,9 @@ router.post(
       console.log(userWeight);
       res.send(userWeight);
     } catch (error) {
-      res.send({message: "No Weight Data for User"})
+      res.send({ message: "No Weight Data for User" })
     }
-  
+
   }
 );
 

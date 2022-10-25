@@ -9,6 +9,7 @@ interface WeightAttrs {
   water: number;
   exercise: number;
   weight: { date: string; value: number }[];
+  date: string;
 }
 
 // An interface that descirbes the properties
@@ -26,6 +27,7 @@ interface WeightDoc extends mongoose.Document {
   water: number;
   exercise: number;
   weight: { date: string; value: number }[];
+  date: string;
 }
 
 const weightSchema = new mongoose.Schema({
@@ -61,6 +63,10 @@ const weightSchema = new mongoose.Schema({
       },
     },
   ],
+  date: {
+    type: String,
+    required: true
+  }
 });
 
 weightSchema.statics.build = (attrs: WeightAttrs) => {

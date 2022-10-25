@@ -8,7 +8,13 @@ const arrangePdfs = (category: string, language: string) => {
     try {
       const filenames = fs.readdirSync(directoryPath);
       filenames.forEach((file: string) => {
-        if (file.endsWith(".pdf")) {
+        if (!file.match(/^.*\.[^\\]+$/g)) {
+          pdfs = {
+            ...pdfs,
+            [file.replaceAll('-', ' ')]: `http://143.244.213.94/api/pdfs/get-pdfs/${language}/${category}/${file}`,
+          };
+        }
+        else if (file.endsWith(".pdf")) {
           pdfs = {
             ...pdfs,
             [file
