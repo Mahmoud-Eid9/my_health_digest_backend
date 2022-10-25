@@ -139,7 +139,7 @@ router.get(
           water: 0.0,
           exercise: 0,
           weight: [],
-          date: moment().tz(zone).format(format)
+          date: moment(format)
         });
         newWeight.save()
         res.status(200).send(newWeight)
