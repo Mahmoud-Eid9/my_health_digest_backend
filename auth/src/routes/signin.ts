@@ -26,50 +26,50 @@ router.post(
     email.toLowerCase()
     const existingUser = await User.findOne({ email });
     try {
-      
-    if (!existingUser) {
-      throw new BadRequestError('Invalid credentials');
-    }
 
-    console.log(existingUser.password);
-    console.log(password);
-    const passwordsMatch = await PasswordManager.compare(existingUser.password, password);
-    console.log('hello wrold');
-    if (!passwordsMatch) {
-      throw new BadRequestError('Invalid credentials');
-    }
-    let userJwt = null;
+      if (!existingUser) {
+        throw new BadRequestError('Invalid credentials');
+      }
 
-    // Generate JWT
-    if (existingUser.admin) {
-      userJwt = jwt.sign(
-        {
-          id: existingUser.id,
-          email: existingUser.email,
-          admin: true,
-        },
-        process.env.JWT_KEY!
-      );
-    } else {
-      userJwt = jwt.sign(
-        {
-          id: existingUser.id,
-          email: existingUser.email,
-          name: existingUser.name,
-          age: existingUser.age,
-          gender: existingUser.gender,
-          admin: existingUser.admin,
-          activated: existingUser.activated,
-          expiration: existingUser.expiration,
-          company: existingUser.company,
-        },
-        process.env.JWT_KEY!
-      );
-    }
+      console.log(existingUser.password);
+      console.log(password);
+      const passwordsMatch = await PasswordManager.compare(existingUser.password, password);
+      console.log('hello wrold');
+      if (!passwordsMatch) {
+        throw new BadRequestError('Invalid credentials');
+      }
+      let userJwt = null;
 
-    res.status(200).send({ token: userJwt, existingUser });
+      // Generate JWT
+      if (existingUser.admin) {
+        userJwt = jwt.sign(
+          {
+            id: existingUser.id,
+            email: existingUser.email,
+            admin: true,
+          },
+          process.env.JWT_KEY!
+        );
+      } else {
+        userJwt = jwt.sign(
+          {
+            id: existingUser.id,
+            email: existingUser.email,
+            name: existingUser.name,
+            age: existingUser.age,
+            gender: existingUser.gender,
+            admin: existingUser.admin,
+            activated: existingUser.activated,
+            expiration: existingUser.expiration,
+            company: existingUser.company,
+          },
+          process.env.JWT_KEY!
+        );
+      }
+
+      res.status(200).send({ token: userJwt, existingUser });
     } catch (error) {
-      res.status(400).send({message: "Invalid credentials"})
+      res.status(400).send({ message: "Invalid credentials" })
     }
 
   }
@@ -80,6 +80,9 @@ router.get('/api/users/verify', currentUser, requireAuth, async (req, res) => {
   try {
     if (!user) {
       throw new BadRequestError('No Such User');
+    }
+    if (user.admin) {
+      res.status(200).send({ activated: true })
     }
     if (user.activated) {
       if (moment.tz(user.expiration, format, zone).isBefore(moment().tz(zone))) {
@@ -93,7 +96,7 @@ router.get('/api/users/verify', currentUser, requireAuth, async (req, res) => {
       res.status(200).send({ activated: false });
     }
   } catch (error) {
-    res.status(400).send({message: "No Such User"})
+    res.status(400).send({ message: "No Such User" })
   }
 
 
