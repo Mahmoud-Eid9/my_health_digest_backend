@@ -144,8 +144,8 @@ router.get(
         newWeight.save()
         res.status(200).send(newWeight)
       } else {
-        if (moment.tz(weight.date, format, zone).isBefore(moment().tz(zone).format(format))) {
-          const nWeight = await Weight.findOneAndUpdate({ _id: weight.id }, { cal_goal: 0, water: 0.0, exercise: 0 })
+        if (moment.tz(weight.date, format, zone).isBefore(moment(zone, format))) {
+          const nWeight = await Weight.findOneAndUpdate({ _id: weight.id }, { cal_progress: 0, water: 0.0, exercise: 0 })
           nWeight?.save()
           res.status(200).send(nWeight)
         }
