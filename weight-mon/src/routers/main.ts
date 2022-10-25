@@ -3,7 +3,7 @@ import { Weight } from '../models/weightMon';
 import { currentUser, BadRequestError, requireAuth } from '@myhealthdigest/auth-middleware';
 import { StringLiteral } from 'typescript';
 const router = express.Router();
-const moment = require('moment-timezone');
+const moment = require('moment');
 
 const format = 'DD-MM-YYYY';
 const zone = 'Africa/Cairo';
@@ -144,7 +144,7 @@ router.get(
         newWeight.save()
         res.status(200).send(newWeight)
       } else {
-        if (moment(weight.date, format).isBefore(moment(format))) {
+        if (moment(weight.date).format(format).isBefore(moment().format(format))) {
           const nWeight = await Weight.findOneAndUpdate({ _id: weight._id }, { cal_progress: 0, water: 0.0, exercise: 0 })
           nWeight?.save()
           res.status(200).send(nWeight)
