@@ -143,15 +143,15 @@ router.get(
         });
         newWeight.save()
         res.status(200).send(newWeight)
-      } else if (moment(weight.date, format).isBefore(moment(format))) {
-          const nWeight = await Weight.findOneAndUpdate({ _id: weight._id }, { cal_progress: 0, water: 0.0, exercise: 0 })
-          nWeight?.save()
-          res.status(200).send(nWeight)
-        }else{
+      } else if (weight.date && moment(weight.date, format).isBefore(moment(format))) {
+        const nWeight = await Weight.findOneAndUpdate({ _id: weight._id }, { cal_progress: 0, water: 0.0, exercise: 0 })
+        nWeight?.save()
+        res.status(200).send(nWeight)
+      } else {
 
-          res.status(200).send(weight);
-          
-        }
+        res.status(200).send(weight);
+
+      }
     } catch (error) {
       res.send({ message: "No Such User" })
     }
