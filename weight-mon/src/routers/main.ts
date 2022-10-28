@@ -139,7 +139,7 @@ router.get(
           water: 0.0,
           exercise: 0,
           weight: [],
-          date: `${moment()}`
+          date: moment()
         });
         newWeight.save()
         res.status(200).send(newWeight)
