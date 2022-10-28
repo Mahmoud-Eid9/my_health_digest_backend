@@ -3,7 +3,7 @@ import { Weight } from '../models/weightMon';
 import { currentUser, BadRequestError, requireAuth } from '@myhealthdigest/auth-middleware';
 import { StringLiteral } from 'typescript';
 const router = express.Router();
-const moment = require('moment');
+const moment = require('moment-timezone');
 const zone = 'Africa/Cairo';
 const format = 'DD-MM-YYYY HH:mm';
 
