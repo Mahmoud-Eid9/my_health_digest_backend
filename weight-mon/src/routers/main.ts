@@ -4,9 +4,8 @@ import { currentUser, BadRequestError, requireAuth } from '@myhealthdigest/auth-
 import { StringLiteral } from 'typescript';
 const router = express.Router();
 const moment = require('moment');
-
-const format = 'DD-MM-YYYY';
 const zone = 'Africa/Cairo';
+const format = 'DD-MM-YYYY HH:mm';
 
 router.post(
   '/api/weight-mon/weight',
@@ -139,11 +138,11 @@ router.get(
           water: 0.0,
           exercise: 0,
           weight: [],
-          date: moment()
+          date: moment().format()
         });
         newWeight.save()
         res.status(200).send(newWeight)
-      } else if (weight.date && moment(weight.date).isBefore(moment(), 'day')) {
+      } else if (moment.tz(weight.date, format, zone).isBefore(moment().tz(zone), 'day')) {
         const nWeight = await Weight.findOneAndUpdate({ _id: weight._id }, { cal_progress: 0, water: 0.0, exercise: 0, date: weight.date })
         nWeight?.save()
         res.status(200).send(nWeight)
