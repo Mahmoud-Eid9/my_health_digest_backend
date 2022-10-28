@@ -139,11 +139,11 @@ router.get(
           water: 0.0,
           exercise: 0,
           weight: [],
-          date: moment(format)
+          date: `${moment()}`
         });
         newWeight.save()
         res.status(200).send(newWeight)
-      } else if (weight.date && moment(weight.date, format).isBefore(moment(format))) {
+      } else if (weight.date && moment(weight.date).isBefore(moment(), 'day')) {
         const nWeight = await Weight.findOneAndUpdate({ _id: weight._id }, { cal_progress: 0, water: 0.0, exercise: 0 })
         nWeight?.save()
         res.status(200).send(nWeight)
