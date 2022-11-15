@@ -47,7 +47,7 @@ const weightSchema = new mongoose.Schema({
     type: Number,
     Required: true,
   },
-  exercise:{
+  exercise: {
     type: Number,
     required: true
   },

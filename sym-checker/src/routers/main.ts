@@ -35,4 +35,39 @@ router.get('/api/sym-checker/symptoms', (req: Request, res: Response) => {
   });
 });
 
+
+
+router.post("/api/sym-checker/autocomplete", async (req: Request, res: Response) => {
+  const { symptom } = req.body
+  try {
+    let result = await SympAutocomp.aggregate([
+      {
+        $search: {
+          index: "autocomplete",
+          autocomplete: {
+            query: symptom,
+            path: "name",
+            fuzzy: {
+              maxEdits: 2
+            },
+            tokenOrder: "sequential"
+          }
+        }
+      },
+      {
+        $project: {
+          name: 1
+        }
+      }, {
+        $limit: 10
+      }
+    ])
+    //.toArray();
+    res.send(result);
+  } catch (e) {
+    res.status(500).send({ message: e });
+  }
+});
+
+
 export { router as main };
